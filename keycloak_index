@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keycloak Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@latest/dist/keycloak.min.js"></script>
+</head>
+<body>
+  <h1>Welcome to My App</h1>
+  <button onclick="keycloak.login()">Login</button>
+  <button onclick="keycloak.logout()">Logout</button>
+  <p id="status"></p>
+
+  <script>
+    const keycloak = new Keycloak({
+      url: 'http://localhost:8080/',
+      realm: 'demo-realm',
+      clientId: 'my-web-app'
+    });
+
+    keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
+      document.getElementById('status').textContent = 
+        authenticated ? `Logged in as ${keycloak.tokenParsed.preferred_username}` : 'Not authenticated';
+    });
+  </script>
+</body>
+</html>
